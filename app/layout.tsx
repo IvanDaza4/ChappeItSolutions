@@ -15,7 +15,7 @@ const _montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600
 const _roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
-  title: 'Tech Solutions - Soluciones Tecnológicas Integrales',
+  title: 'Chappe It Solutions - Soluciones Tecnológicas Integrales',
   description: 'Empresa líder en seguridad electrónica, tecnologías de información y energía sustentable. Soluciones integrales para industrias críticas.',
   generator: 'v0.app',
   icons: {
