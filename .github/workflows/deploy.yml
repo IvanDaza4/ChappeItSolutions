@@ -25,3 +25,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/ # Asegúrate de que esta sea tu carpeta de salida
+          protocol: ftps
+          port: 21
+          security: strict
