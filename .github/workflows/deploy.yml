@@ -27,4 +27,4 @@ jobs:
           local-dir: ./out/ # Asegúrate de que esta sea tu carpeta de salida
           protocol: ftps
           port: 21
-          security: strict
+          security: loose 
