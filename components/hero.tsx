@@ -76,9 +76,8 @@ export function Hero() {
             <br />
             <span className="relative">
               <span
-                className={`text-primary inline-block transition-all duration-500 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-                }`}
+                className={`text-primary inline-block transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+                  }`}
               >
                 {words[currentWord]}
               </span>
@@ -86,7 +85,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty animate-fade-in-up animation-delay-400">
-            Equipos de profesionales certificados dedicados a brindar soluciones de seguridad electrónica, 
+            Equipos de profesionales certificados dedicados a brindar soluciones de seguridad electrónica,
             tecnologías de información e <span className="text-foreground/90">IoT para el hogar</span> (domótica, automatización y control inteligente).
           </p>
 

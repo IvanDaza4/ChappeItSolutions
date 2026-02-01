@@ -96,9 +96,8 @@ function ServiceCard({ category, index }: { category: typeof serviceCategories[0
   return (
     <div
       ref={cardRef}
-      className={`group relative bg-card border ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-700 hover:shadow-2xl ${category.glowColor} ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-      }`}
+      className={`group relative bg-card border ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-700 hover:shadow-2xl ${category.glowColor} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

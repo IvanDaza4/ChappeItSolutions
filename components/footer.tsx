@@ -25,19 +25,39 @@ export function Footer() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    // Simulate form submission (replace with actual form service like Formspree)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setIsSubmitting(false)
-    setSubmitted(true)
-    setFormData({ name: "", email: "", message: "" })
-    
-    setTimeout(() => setSubmitted(false), 5000)
+    setErrorMsg(null)
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          company: "", // honeypot (vacío a propósito)
+        }),
+      })
+
+      const data = await res.json().catch(() => null)
+
+      if (!res.ok || !data?.ok) {
+        throw new Error(data?.error || "No se pudo enviar el mensaje.")
+      }
+
+      setSubmitted(true)
+      setFormData({ name: "", email: "", message: "" })
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (err: any) {
+      setErrorMsg(err?.message || "Error inesperado.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -52,7 +72,7 @@ export function Footer() {
             <p className="text-muted-foreground mb-6">
               Completa el formulario y nos pondremos en contacto contigo a la brevedad.
             </p>
-            
+
             {submitted ? (
               <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 text-center">
                 <p className="text-primary font-medium">¡Mensaje enviado correctamente!</p>
@@ -61,6 +81,7 @@ export function Footer() {
                 </p>
               </div>
             ) : (
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <Input
@@ -138,7 +159,7 @@ export function Footer() {
                     <p className="text-sm font-medium">Email</p>
                     <p className="text-sm text-muted-foreground">
                       contacto@chappe.com.ar
-                      Soporte@chappe.com.ar 
+                      Soporte@chappe.com.ar
                       Info@chappe.com.ar
                     </p>
                   </div>
