@@ -6,6 +6,12 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Shield, Server, Smartphone, ChevronDown } from "lucide-react"
 import { GridPattern, GlowOrb, CircuitLines, ScanLine, FloatingIcons } from "./tech-background"
+import {
+  SecurityIcon,
+  ITIcon,
+  IoTIcon,
+  WebIcon
+} from "@/components/service-icons"
 
 const words = ["Seguridad", "Innovación", "Tecnología", "Confianza"]
 
@@ -114,11 +120,12 @@ export function Hero() {
           </div>
 
           {/* Service highlights */}
-          <div className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="mt-20 grid grid-cols-1 sm:grid-cols-4 gap-6">
             {[
-              { icon: Shield, title: "Seguridad Electrónica", desc: "Circuitos CCTV, Control de Acceso", delay: "animation-delay-800" },
-              { icon: Server, title: "Tecnologías de Información", desc: "Redes, Cloud, Software", delay: "animation-delay-900" },
-              { icon: Smartphone, title: "IoT para el Hogar", desc: "Domótica, cámaras, sensores y automatización", delay: "animation-delay-1000" },
+              { icon: SecurityIcon, title: "Seguridad Electrónica", desc: "Circuitos CCTV, Control de Acceso", delay: "animation-delay-800" },
+              { icon: ITIcon, title: "Tecnologías de Información", desc: "Redes, Cloud, Software", delay: "animation-delay-900" },
+              { icon: IoTIcon, title: "IoT para el Hogar", desc: "Domótica, cámaras, sensores y automatización", delay: "animation-delay-1000" },
+              { icon: WebIcon, title: "Diseño y Desarrollo Web", desc: "Landing Page, E-commerce, SEO", delay: "animation-delay-1000" }
             ].map((item, index) => (
               <div
                 key={index}

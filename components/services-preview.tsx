@@ -5,26 +5,32 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
-  Shield,
   Camera,
   Fingerprint,
   Bell,
-  Server,
   Cloud,
   Monitor,
   Code,
-  Smartphone,
   Wifi,
   DoorClosed,
   Lightbulb,
   ArrowRight,
+  Layout,
+  Zap,
 } from "lucide-react"
+
+import {
+  SecurityIcon,
+  ITIcon,
+  IoTIcon,
+  WebIcon
+} from "@/components/service-icons"
 
 const serviceCategories = [
   {
     title: "Seguridad Electrónica",
     description: "Protege tu hogar o negocio con sistemas inteligentes de vigilancia y control.",
-    icon: Shield,
+    icon: SecurityIcon,
     color: "from-red-500/20 to-red-500/5",
     borderColor: "border-red-500/30 hover:border-red-500/60",
     iconBg: "bg-red-500/10 text-red-500 group-hover:bg-red-500 group-hover:text-white",
@@ -40,7 +46,7 @@ const serviceCategories = [
   {
     title: "Tecnologías de Información",
     description: "Infraestructura y servicios TI para que todo funcione rápido, estable y seguro.",
-    icon: Server,
+    icon: ITIcon,
     color: "from-blue-500/20 to-blue-500/5",
     borderColor: "border-blue-500/30 hover:border-blue-500/60",
     iconBg: "bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white",
@@ -56,7 +62,7 @@ const serviceCategories = [
   {
     title: "IoT para el Hogar",
     description: "Automatiza y controla tu casa desde el celular: confort, seguridad y eficiencia.",
-    icon: Smartphone,
+    icon: IoTIcon,
     color: "from-green-500/20 to-green-500/5",
     borderColor: "border-green-500/30 hover:border-green-500/60",
     iconBg: "bg-green-500/10 text-green-500 group-hover:bg-green-500 group-hover:text-white",
@@ -68,6 +74,22 @@ const serviceCategories = [
       { name: "Iluminación y Escenas Smart", icon: Lightbulb },
     ],
     href: "/servicios#iot",
+  },
+  {
+    title: "Diseño y Desarrollo Web",
+    description: "Crea presencia digital impactante con sitios modernos, rápidos y optimizados para conversión.",
+    icon: WebIcon,
+    color: "from-purple-500/20 to-purple-500/5",
+    borderColor: "border-purple-500/30 hover:border-purple-500/60",
+    iconBg: "bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white",
+    glowColor: "group-hover:shadow-purple-500/20",
+    image: "/images/portfolio/code.jpg",
+    services: [
+      { name: "Diseño UI/UX Profesional", icon: Layout },
+      { name: "Desarrollo Full-Stack", icon: Code },
+      { name: "Optimización y Performance", icon: Zap },
+    ],
+    href: "/servicios#web",
   },
 ]
 
@@ -188,7 +210,7 @@ export function ServicesPreview() {
         </div>
 
         {/* Service cards */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {serviceCategories.map((category, index) => (
             <ServiceCard key={index} category={category} index={index} />
           ))}

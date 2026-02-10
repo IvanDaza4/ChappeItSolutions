@@ -3,12 +3,12 @@
 import { useRef, useState, useEffect } from "react"
 import { CheckCircle2, Monitor, Wifi, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
 
 const supportLevels = [
   {
     level: "Nivel 1",
+    levelNumber: "1",
     title: "Soporte Nivel 1",
     description: "Resolución rápida de incidencias comunes y asistencia técnica básica",
     icon: Monitor,
@@ -23,8 +23,9 @@ const supportLevels = [
     borderColor: "border-blue-500/30 hover:border-blue-500/60",
     iconBg: "bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white",
   },
-  {
+{
     level: "Nivel 2",
+    levelNumber: "2",
     title: "Soporte Nivel 2",
     description: "Diagnóstico avanzado y resolución de problemas técnicos complejos",
     icon: Wifi,
@@ -39,8 +40,9 @@ const supportLevels = [
     borderColor: "border-red-500/30 hover:border-red-500/60",
     iconBg: "bg-red-500/10 text-red-500 group-hover:bg-red-500 group-hover:text-white",
   },
-  {
+{
     level: "Nivel 3",
+    levelNumber: "3",
     title: "Soporte Nivel 3",
     description: "Expertos especializados para infraestructura crítica y proyectos complejos",
     icon: Monitor,
@@ -165,18 +167,23 @@ function SupportCard({
             ))}
           </ul>
 
-          <Button
-            asChild
+<Button
             className={`w-full group/btn relative overflow-hidden ${support.popular ? "shadow-[0_0_20px_rgba(var(--primary),0.2)]" : ""
               }`}
             variant={support.popular ? "default" : "outline"}
+            onClick={() => {
+              // Dispatch custom event to update footer form
+              window.dispatchEvent(new CustomEvent("supportLevelSelected", { 
+                detail: { nivel: support.levelNumber } 
+              }))
+              // Scroll to footer
+              document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" })
+            }}
           >
-            <Link href="#contacto">
-              <span className="relative z-10 flex items-center justify-center">
-                Establecer Conexión
-                <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-              </span>
-            </Link>
+            <span className="relative z-10 flex items-center justify-center">
+              Establecer Conexión
+              <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+            </span>
           </Button>
         </div>
 
