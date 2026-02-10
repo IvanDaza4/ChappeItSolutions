@@ -6,7 +6,7 @@ import { CheckCircle2, Building2, Users, Award, TrendingUp } from "lucide-react"
 import { CircuitLines } from "./tech-background"
 
 const stats = [
-  { label: "Años en el mercado", value: 15, suffix: "+" },
+  { label: "Años en el mercado", value: 20, suffix: "+" },
   { label: "Proyectos implementados", value: 500, suffix: "+" },
   { label: "Clientes protegidos", value: 200, suffix: "+" },
   { label: "Técnicos certificados", value: 50, suffix: "+" },
