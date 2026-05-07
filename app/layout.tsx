@@ -75,25 +75,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-export const viewport: Viewport = {
-  themeColor: '#050505',
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="es" className="bg-background">
-      <body className={`${inter.variable} ${geistMono.variable} ${sourceSerif.variable} font-sans antialiased`}>
-        {children}
-        <Analytics />
-      </body>
-    </html>
-  )
-}
