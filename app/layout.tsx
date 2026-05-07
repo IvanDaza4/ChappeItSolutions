@@ -1,23 +1,37 @@
 import React from "react"
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-import { Montserrat, Roboto, Inter as V0_Font_Inter, Geist_Mono as V0_Font_Geist_Mono, Source_Serif_4 as V0_Font_Source_Serif_4 } from 'next/font/google'
+import { Inter, Geist_Mono, Source_Serif_4 } from 'next/font/google'
 
-// Initialize fonts
-const _inter = V0_Font_Inter({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _sourceSerif_4 = V0_Font_Source_Serif_4({ subsets: ['latin'], weight: ["200","300","400","500","600","700","800","900"] })
+// Initialize premium font stack
+const inter = Inter({ 
+  subsets: ['latin'], 
+  weight: ["300", "400", "500", "600", "700"],
+  variable: '--font-inter'
+})
 
-const _montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-const _roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
+const geistMono = Geist_Mono({ 
+  subsets: ['latin'], 
+  weight: ["400", "500"],
+  variable: '--font-geist-mono'
+})
+
+const sourceSerif = Source_Serif_4({ 
+  subsets: ['latin'], 
+  weight: ["400", "500", "600"],
+  variable: '--font-source-serif'
+})
 
 export const metadata: Metadata = {
-  title: 'Chappe It Solutions - Soluciones Tecnológicas Integrales',
-  description: 'Empresa líder en seguridad electrónica, tecnologías de información y energía sustentable. Soluciones integrales para industrias críticas.',
+  title: 'Chappe IT Solutions | Soluciones Tecnologicas de Elite',
+  description: 'Arquitectura digital de vanguardia. Seguridad electronica, infraestructura IT e IoT para empresas que exigen excelencia.',
   generator: 'v0.app',
+  keywords: ['tecnologia', 'seguridad electronica', 'IT', 'IoT', 'soluciones empresariales', 'Buenos Aires'],
+  authors: [{ name: 'Chappe IT Solutions' }],
+  creator: 'Chappe IT Solutions',
   icons: {
     icon: [
       {
@@ -28,13 +42,23 @@ export const metadata: Metadata = {
         url: '/c.png',
         media: '(prefers-color-scheme: dark)',
       },
-      {
-        url: '/c.png',
-        type: 'image/svg+xml',
-      },
     ],
     apple: '/c.png',
   },
+  openGraph: {
+    type: 'website',
+    locale: 'es_AR',
+    siteName: 'Chappe IT Solutions',
+    title: 'Chappe IT Solutions | Soluciones Tecnologicas de Elite',
+    description: 'Arquitectura digital de vanguardia. Seguridad electronica, infraestructura IT e IoT.',
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#050505',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 }
 
 export default function RootLayout({
@@ -43,8 +67,30 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={`font-sans antialiased bg-background text-foreground`}>
+    <html lang="es" className="bg-background">
+      <body className={`${inter.variable} ${geistMono.variable} ${sourceSerif.variable} font-sans antialiased`}>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  )
+}
+
+export const viewport: Viewport = {
+  themeColor: '#050505',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="es" className="bg-background">
+      <body className={`${inter.variable} ${geistMono.variable} ${sourceSerif.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>
