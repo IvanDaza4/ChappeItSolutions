@@ -2,62 +2,107 @@
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowUpRight, Shield, Server, Cpu, Code } from "lucide-react"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import {
+  Camera,
+  Fingerprint,
+  Bell,
+  Cloud,
+  Monitor,
+  Code,
+  Wifi,
+  DoorClosed,
+  Lightbulb,
+  ArrowRight,
+  Layout,
+  Zap,
+} from "lucide-react"
 
-const services = [
+import {
+  SecurityIcon,
+  ITIcon,
+  IoTIcon,
+  WebIcon
+} from "@/components/service-icons"
+
+const serviceCategories = [
   {
-    number: "01",
-    title: "Seguridad Electronica",
-    description: "Sistemas inteligentes de vigilancia, control de acceso y alarmas con analitica avanzada basada en IA.",
-    features: ["CCTV con IA", "Control Biometrico", "Alarmas Inteligentes", "Monitoreo 24/7"],
-    icon: Shield,
-    href: "/servicios#seguridad"
+    title: "Seguridad Electrónica",
+    description: "Protege tu hogar o negocio con sistemas inteligentes de vigilancia y control.",
+    icon: SecurityIcon,
+    color: "from-red-500/20 to-red-500/5",
+    borderColor: "border-red-500/30 hover:border-red-500/60",
+    iconBg: "bg-red-500/10 text-red-500 group-hover:bg-red-500 group-hover:text-white",
+    glowColor: "group-hover:shadow-red-500/20",
+    image: "/images/portfolio/seguridad.jpeg",
+    services: [
+      { name: "CCTV con Analítica IA", icon: Camera },
+      { name: "Control de Acceso", icon: Fingerprint },
+      { name: "Alarmas y Sensores", icon: Bell },
+    ],
+    href: "/servicios#seguridad",
   },
   {
-    number: "02",
-    title: "Infraestructura IT",
-    description: "Redes corporativas de alto rendimiento, centros de datos y soluciones cloud escalables.",
-    features: ["Redes Corporativas", "Cloud Computing", "Virtualizacion", "Disaster Recovery"],
-    icon: Server,
-    href: "/servicios#ti"
+    title: "Tecnologías de Información",
+    description: "Infraestructura y servicios TI para que todo funcione rápido, estable y seguro.",
+    icon: ITIcon,
+    color: "from-blue-500/20 to-blue-500/5",
+    borderColor: "border-blue-500/30 hover:border-blue-500/60",
+    iconBg: "bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white",
+    glowColor: "group-hover:shadow-blue-500/20",
+    image: "/images/portfolio/datacenter.jpg",
+    services: [
+      { name: "Redes y Conectividad", icon: Monitor },
+      { name: "Servicios Cloud", icon: Cloud },
+      { name: "Software a Medida", icon: Code },
+    ],
+    href: "/servicios#ti",
   },
   {
-    number: "03",
-    title: "IoT & Domotica",
-    description: "Automatizacion inteligente para hogares y empresas. Control total desde cualquier dispositivo.",
-    features: ["Smart Home", "Automatizacion", "Conectividad IoT", "Control Remoto"],
-    icon: Cpu,
-    href: "/servicios#iot"
+    title: "IoT para el Hogar",
+    description: "Automatiza y controla tu casa desde el celular: confort, seguridad y eficiencia.",
+    icon: IoTIcon,
+    color: "from-green-500/20 to-green-500/5",
+    borderColor: "border-green-500/30 hover:border-green-500/60",
+    iconBg: "bg-green-500/10 text-green-500 group-hover:bg-green-500 group-hover:text-white",
+    glowColor: "group-hover:shadow-green-500/20",
+    image: "/images/portfolio/iot.png",
+    services: [
+      { name: "Wi-Fi / Mesh & Conectividad", icon: Wifi },
+      { name: "Cerraduras y Videoportero", icon: DoorClosed },
+      { name: "Iluminación y Escenas Smart", icon: Lightbulb },
+    ],
+    href: "/servicios#iot",
   },
   {
-    number: "04",
-    title: "Desarrollo Web",
-    description: "Sitios web de alto impacto, e-commerce y aplicaciones web con las ultimas tecnologias.",
-    features: ["Diseño UI/UX", "Desarrollo Full-Stack", "E-commerce", "SEO & Performance"],
-    icon: Code,
-    href: "/servicios#web"
-  }
+    title: "Diseño y Desarrollo Web",
+    description: "Crea presencia digital impactante con sitios modernos, rápidos y optimizados para conversión.",
+    icon: WebIcon,
+    color: "from-purple-500/20 to-purple-500/5",
+    borderColor: "border-purple-500/30 hover:border-purple-500/60",
+    iconBg: "bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white",
+    glowColor: "group-hover:shadow-purple-500/20",
+    image: "/images/portfolio/code.jpg",
+    services: [
+      { name: "Diseño UI/UX Profesional", icon: Layout },
+      { name: "Desarrollo Full-Stack", icon: Code },
+      { name: "Optimización y Performance", icon: Zap },
+    ],
+    href: "/servicios#web",
+  },
 ]
 
-function ServiceCard({ 
-  service, 
-  index,
-  isActive,
-  onHover 
-}: { 
-  service: typeof services[0]
-  index: number
-  isActive: boolean
-  onHover: () => void
-}) {
+function ServiceCard({ category, index }: { category: typeof serviceCategories[0]; index: number }) {
   const [isVisible, setIsVisible] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setTimeout(() => setIsVisible(true), index * 100)
+          setTimeout(() => setIsVisible(true), index * 200)
         }
       },
       { threshold: 0.2 }
@@ -70,133 +115,118 @@ function ServiceCard({
     return () => observer.disconnect()
   }, [index])
 
-  const Icon = service.icon
-
   return (
     <div
       ref={cardRef}
-      className={`group relative transition-all duration-500 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      onMouseEnter={onHover}
+      className={`group relative bg-card border ${category.borderColor} rounded-2xl overflow-hidden transition-all duration-700 hover:shadow-2xl ${category.glowColor} ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <Link href={service.href} className="block">
-        {/* Card container */}
-        <div className={`relative p-8 md:p-10 border transition-all duration-500 ${
-          isActive 
-            ? 'border-foreground/20 bg-secondary/50' 
-            : 'border-border hover:border-foreground/10'
-        }`}>
-          {/* Top row: number and icon */}
-          <div className="flex items-start justify-between mb-8">
-            <span className="text-xs tracking-[0.2em] text-muted-foreground">
-              {service.number}
-            </span>
-            <div className={`p-3 border transition-all duration-300 ${
-              isActive ? 'border-foreground/30' : 'border-border'
-            }`}>
-              <Icon className="w-5 h-5 text-foreground" />
-            </div>
-          </div>
+      {/* Background gradient */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
-          {/* Title */}
-          <h3 className="text-2xl md:text-3xl font-light tracking-tight text-foreground mb-4 group-hover:text-muted-foreground transition-colors">
-            {service.title}
-          </h3>
+      {/* Image preview on hover */}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${isHovered ? "opacity-20" : "opacity-0"}`}>
+        <Image src={category.image || "/placeholder.svg"} alt="" fill className="object-cover" />
+      </div>
 
-          {/* Description */}
-          <p className="text-muted-foreground leading-relaxed mb-8">
-            {service.description}
-          </p>
+      {/* Content */}
+      <div className="relative p-8">
+        {/* Animated corner accents */}
+        <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500" />
+        <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-primary/0 group-hover:border-primary/50 transition-colors duration-500" />
 
-          {/* Features list */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {service.features.map((feature, i) => (
-              <span 
-                key={i}
-                className="text-xs tracking-wide px-3 py-1.5 border border-border text-muted-foreground"
-              >
-                {feature}
-              </span>
-            ))}
-          </div>
-
-          {/* Link indicator */}
-          <div className="flex items-center gap-2 text-foreground">
-            <span className="text-sm font-medium">Ver detalles</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </div>
-
-          {/* Active indicator line */}
-          <div className={`absolute bottom-0 left-0 h-px bg-foreground transition-all duration-500 ${
-            isActive ? 'w-full' : 'w-0'
-          }`} />
+        {/* Icon */}
+        <div
+          className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl ${category.iconBg} mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}
+        >
+          <category.icon className="h-8 w-8" />
+          {/* Icon glow */}
+          <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity bg-current" />
         </div>
-      </Link>
+
+        {/* Title and description */}
+        <h3 className="text-xl font-semibold mb-3 font-[family-name:var(--font-heading)] group-hover:text-primary transition-colors">
+          {category.title}
+        </h3>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-6">{category.description}</p>
+
+        {/* Services list */}
+        <ul className="space-y-3 mb-8">
+          {category.services.map((service, serviceIndex) => (
+            <li
+              key={serviceIndex}
+              className="flex items-center gap-3 group/item"
+              style={{
+                transitionDelay: `${serviceIndex * 100}ms`,
+              }}
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/80 backdrop-blur-sm group-hover/item:bg-primary/10 transition-colors">
+                <service.icon className="h-4 w-4 text-muted-foreground group-hover/item:text-primary transition-colors" />
+              </div>
+              <span className="text-sm">{service.name}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Link with animated arrow */}
+        <Link href={category.href} className="inline-flex items-center text-sm font-medium text-primary group/link">
+          Ver más detalles
+          <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+        </Link>
+      </div>
+
+      {/* Bottom animated line */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
     </div>
   )
 }
 
 export function ServicesPreview() {
-  const [activeIndex, setActiveIndex] = useState(0)
-
   return (
-    <section className="relative py-32 overflow-hidden">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+    <section className="relative py-24 overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10">
+        <Image src="/images/services-bg.jpg" alt="" fill className="object-cover opacity-5" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Section header */}
-        <div className="mb-20">
-          <div className="flex items-center gap-4 mb-8">
-            <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">02</span>
-            <span className="h-px w-16 bg-border" />
-            <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Servicios</span>
+        <div className="mx-auto max-w-2xl text-center mb-16">
+          <p className="text-sm font-semibold text-primary tracking-wider uppercase mb-3">Nuestros Servicios</p>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl font-[family-name:var(--font-heading)]">
+            Soluciones para Cada <span className="text-primary">Necesidad</span>
+          </h2>
+          <div className="mt-3 flex items-center justify-center gap-2">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
+            <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
           </div>
-          
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground leading-[1.1]">
-                Soluciones integrales
-                <span className="block text-muted-foreground">para cada necesidad</span>
-              </h2>
-            </div>
-            <div className="lg:flex lg:items-end">
-              <p className="text-muted-foreground leading-relaxed max-w-md">
-                Cuatro pilares tecnologicos que cubren todas las necesidades de infraestructura, seguridad y conectividad de tu organizacion.
-              </p>
-            </div>
-          </div>
+          <p className="mt-6 text-muted-foreground">
+            Servicios especializados en tres pilares clave para modernizar, proteger y conectar tus espacios.
+          </p>
         </div>
 
-        {/* Services grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              service={service}
-              index={index}
-              isActive={activeIndex === index}
-              onHover={() => setActiveIndex(index)}
-            />
+        {/* Service cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {serviceCategories.map((category, index) => (
+            <ServiceCard key={index} category={category} index={index} />
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 pt-12 border-t border-border/50">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-            <div>
-              <p className="text-foreground font-medium mb-1">No encuentras lo que buscas?</p>
-              <p className="text-sm text-muted-foreground">Diseñamos soluciones a medida para requerimientos especificos.</p>
-            </div>
-            <Link 
-              href="#contacto"
-              className="group inline-flex items-center gap-3 px-6 py-3 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
-            >
-              <span className="text-sm font-medium">Consultar proyecto</span>
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        {/* CTA */}
+        <div className="mt-16 text-center">
+          <Button size="lg" className="group relative overflow-hidden" asChild>
+            <Link href="/servicios">
+              <span className="relative z-10 flex items-center">
+                Explorar Todos los Servicios
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <span className="absolute inset-0 bg-gradient-to-r from-primary to-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
-          </div>
+          </Button>
         </div>
       </div>
     </section>

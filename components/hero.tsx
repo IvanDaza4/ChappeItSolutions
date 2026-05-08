@@ -1,191 +1,185 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight } from "lucide-react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { ArrowRight, Shield, Server, Smartphone, ChevronDown } from "lucide-react"
+import { GridPattern, GlowOrb, CircuitLines, ScanLine, FloatingIcons } from "./tech-background"
+import {
+  SecurityIcon,
+  ITIcon,
+  IoTIcon,
+  WebIcon
+} from "@/components/service-icons"
 
-const capabilities = [
-  "Seguridad Electronica",
-  "Infraestructura IT",
-  "IoT & Domotica",
-  "Desarrollo Web"
-]
+const words = ["Seguridad", "Innovación", "Tecnología", "Confianza"]
 
 export function Hero() {
-  const [currentCapability, setCurrentCapability] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const heroRef = useRef<HTMLDivElement>(null)
+  const [currentWord, setCurrentWord] = useState(0)
+  const [isVisible, setIsVisible] = useState(true)
 
-  // Capability rotation
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsAnimating(true)
+      setIsVisible(false)
       setTimeout(() => {
-        setCurrentCapability((prev) => (prev + 1) % capabilities.length)
-        setIsAnimating(false)
-      }, 300)
+        setCurrentWord((prev) => (prev + 1) % words.length)
+        setIsVisible(true)
+      }, 500)
     }, 3000)
     return () => clearInterval(interval)
   }, [])
 
-  // Mouse tracking for subtle parallax
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return
-      const rect = heroRef.current.getBoundingClientRect()
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height
-      setMousePosition({ x, y })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
   return (
-    <section 
-      ref={heroRef}
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-    >
-      {/* Subtle gradient orbs */}
-      <div 
-        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-foreground/[0.02] rounded-full blur-[120px] transition-transform duration-1000 ease-out"
-        style={{
-          transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`
-        }}
-      />
-      <div 
-        className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-foreground/[0.015] rounded-full blur-[100px] transition-transform duration-1000 ease-out"
-        style={{
-          transform: `translate(${mousePosition.x * -15}px, ${mousePosition.y * -15}px)`
-        }}
-      />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Tech background */}
+      <GridPattern />
+      <CircuitLines />
+      <FloatingIcons />
+      <ScanLine />
 
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(250,250,250,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(250,250,250,0.5) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
-          }}
+      {/* Glow orbs */}
+      <GlowOrb className="w-96 h-96 bg-primary/10 top-1/4 -left-48 animate-pulse" />
+      <GlowOrb className="w-96 h-96 bg-primary/5 bottom-1/4 -right-48 animate-pulse delay-1000" />
+
+      {/* Background image overlay */}
+      <div className="absolute inset-0 -z-5">
+        <Image
+          src="/images/hero-bg.jpg"
+          alt=""
+          fill
+          className="object-cover opacity-20"
+          priority
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 py-32">
-        {/* Top label */}
-        <div className="mb-8 animate-fade-up">
-          <span className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-muted-foreground">
-            <span className="h-px w-8 bg-border" />
-            Soluciones Tecnologicas de Elite
-          </span>
-        </div>
+      {/* Watermark */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none">
+        <span className="text-[12rem] md:text-[20rem] font-bold text-foreground/[0.02] font-[family-name:var(--font-heading)] whitespace-nowrap">
+          CHAPPE IT SOLUTIONS
+        </span>
+      </div>
 
-        {/* Main headline */}
-        <div className="space-y-4 mb-12">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tight text-foreground leading-[0.95] animate-fade-up delay-100">
-            <span className="block">Arquitectura</span>
-            <span className="block">Digital de</span>
-            <span className="block relative">
-              <span className="text-muted-foreground">Vanguardia</span>
-              {/* Decorative line */}
-              <span className="absolute -bottom-2 left-0 h-px w-32 bg-gradient-to-r from-foreground/50 to-transparent animate-line-expand delay-500" />
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Animated badge */}
+          <div className="mb-8 flex justify-center animate-fade-in-up">
+            <div className="group relative inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm text-muted-foreground backdrop-blur-sm hover:border-primary/50 transition-all duration-500">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span className="relative">
+                Más de 20 años de experiencia
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </span>
+            </div>
+          </div>
+
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl font-[family-name:var(--font-heading)] animate-fade-in-up animation-delay-200">
+            <span className="text-balance">Soluciones Tecnológicas</span>
+            <br />
+            <span className="relative">
+              <span
+                className={`text-primary inline-block transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+                  }`}
+              >
+                {words[currentWord]}
+              </span>
             </span>
           </h1>
-        </div>
 
-        {/* Description and rotating capability */}
-        <div className="max-w-xl mb-16 animate-fade-up delay-200">
-          <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-            Mas de 20 anos transformando la infraestructura tecnologica de empresas que exigen excelencia. Precision, innovacion y resultados medibles.
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto text-pretty animate-fade-in-up animation-delay-400">
+            Equipos de profesionales certificados dedicados a brindar soluciones de seguridad electrónica,
+            tecnologías de información e <span className="text-foreground/90">IoT para el hogar</span> (domótica, automatización y control inteligente).
           </p>
-          
-          {/* Rotating capability display */}
-          <div className="flex items-center gap-4">
-            <span className="text-xs tracking-[0.15em] uppercase text-muted-foreground">
-              Especialidad actual
-            </span>
-            <span className="h-px flex-1 bg-border max-w-16" />
-            <span 
-              className={`text-sm font-medium text-foreground transition-all duration-300 ${
-                isAnimating ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
-              }`}
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up animation-delay-600">
+            <Button size="lg" className="group relative overflow-hidden" asChild>
+              <Link href="/servicios">
+                <span className="relative z-10 flex items-center">
+                  Ver Servicios
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-primary to-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="group border-primary/30 hover:border-primary/60 hover:bg-primary/5 bg-transparent"
+              asChild
             >
-              {capabilities[currentCapability]}
-            </span>
+              <Link href="#contacto">
+                <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text group-hover:from-primary group-hover:to-red-400 transition-all">
+                  Solicitar Evaluación
+                </span>
+              </Link>
+            </Button>
           </div>
-        </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-start gap-4 mb-24 animate-fade-up delay-300">
-          <Button 
-            asChild 
-            size="lg"
-            className="group bg-foreground text-background hover:bg-foreground/90 rounded-none px-8 h-14"
-          >
-            <Link href="/servicios" className="flex items-center gap-3">
-              <span>Explorar Servicios</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </Button>
-          
-          <Button 
-            asChild 
-            variant="ghost" 
-            size="lg"
-            className="group text-muted-foreground hover:text-foreground hover:bg-transparent rounded-none px-8 h-14"
-          >
-            <Link href="#contacto" className="flex items-center gap-3">
-              <span>Solicitar Evaluacion</span>
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          </Button>
-        </div>
+          {/* Service highlights */}
+          <div className="mt-20 grid grid-cols-1 sm:grid-cols-4 gap-6">
+            {[
+              { icon: SecurityIcon, title: "Seguridad Electrónica", desc: "Circuitos CCTV, Control de Acceso", delay: "animation-delay-800" },
+              { icon: ITIcon, title: "Tecnologías de Información", desc: "Redes, Cloud, Software", delay: "animation-delay-900" },
+              { icon: IoTIcon, title: "IoT para el Hogar", desc: "Domótica, cámaras, sensores y automatización", delay: "animation-delay-1000" },
+              { icon: WebIcon, title: "Diseño y Desarrollo Web", desc: "Landing Page, E-commerce, SEO", delay: "animation-delay-1000" }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className={`group relative flex flex-col items-center p-6 rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm hover:border-primary/50 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 animate-fade-in-up ${item.delay}`}
+              >
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 pt-12 border-t border-border/50 animate-fade-up delay-400">
-          {[
-            { value: "20+", label: "Anos de experiencia" },
-            { value: "500+", label: "Proyectos completados" },
-            { value: "200+", label: "Clientes activos" },
-            { value: "99.9%", label: "Uptime garantizado" },
-          ].map((stat, index) => (
-            <div key={index} className="group">
-              <p className="text-3xl md:text-4xl font-light text-foreground mb-2 transition-colors group-hover:text-muted-foreground">
-                {stat.value}
-              </p>
-              <p className="text-xs tracking-[0.1em] uppercase text-muted-foreground">
-                {stat.label}
-              </p>
-            </div>
-          ))}
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <item.icon className="h-7 w-7" />
+                  {/* Icon glow */}
+                  <div className="absolute inset-0 rounded-xl bg-primary/50 blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
+                </div>
+                <h3 className="relative font-semibold font-[family-name:var(--font-heading)]">{item.title}</h3>
+                <p className="relative mt-2 text-sm text-muted-foreground text-center">{item.desc}</p>
+
+                {/* Corner accents */}
+                <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-primary/20 rounded-tl opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-primary/20 rounded-br opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-up delay-500">
-        <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-foreground/50 to-transparent" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDown className="h-6 w-6 text-muted-foreground" />
       </div>
 
-      {/* Side decorative text */}
-      <div className="hidden lg:block absolute left-8 top-1/2 -translate-y-1/2">
-        <span className="block text-xs tracking-[0.3em] uppercase text-muted-foreground/50 [writing-mode:vertical-rl] rotate-180">
-          Chappe IT Solutions — Buenos Aires
-        </span>
-      </div>
+      <style jsx global>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-      {/* Right side decorative */}
-      <div className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2">
-        <div className="flex flex-col items-center gap-4">
-          <span className="h-16 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
-          <span className="text-xs text-muted-foreground/50 [writing-mode:vertical-rl] rotate-180">2004 — 2024</span>
-          <span className="h-16 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
-        </div>
-      </div>
+        .animate-fade-in-up {
+          animation: fade-in-up 0.8s ease-out forwards;
+          opacity: 0;
+        }
+
+        .animation-delay-200 { animation-delay: 0.2s; }
+        .animation-delay-400 { animation-delay: 0.4s; }
+        .animation-delay-600 { animation-delay: 0.6s; }
+        .animation-delay-800 { animation-delay: 0.8s; }
+        .animation-delay-900 { animation-delay: 0.9s; }
+        .animation-delay-1000 { animation-delay: 1s; }
+      `}</style>
     </section>
   )
 }
