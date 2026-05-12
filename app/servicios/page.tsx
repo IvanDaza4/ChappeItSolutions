@@ -7,6 +7,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { CheckCircle2, ArrowRight } from "lucide-react"
+import { TechBackground } from "@/components/tech-background"
+
 import {
   SecurityIcon,
   ITIcon,
@@ -255,7 +257,9 @@ function SolutionCard({
   const SolutionIcon = solution.icon
 
   return (
+
     <div
+
       ref={ref}
       style={{
         "--accent": accentHex,
@@ -301,6 +305,7 @@ function SolutionCard({
 }
 
 export default function ServiciosPage() {
+
   const [activeSection, setActiveSection] = useState<string>("")
 
   // Scroll Spy for TOC
@@ -326,6 +331,7 @@ export default function ServiciosPage() {
 
   return (
     <>
+      <TechBackground />
       <Header />
       <main className="pt-20">
 
