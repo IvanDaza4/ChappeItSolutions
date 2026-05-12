@@ -2,10 +2,10 @@
 
 import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { TechBackground, GridPattern, CircuitLines } from "@/components/tech-background"
 import { CheckCircle2, ArrowRight } from "lucide-react"
 import {
   SecurityIcon,
@@ -31,6 +31,7 @@ import {
 } from "@/components/service-icons"
 import type { ComponentType } from "react"
 
+// --- Interfaces ---
 interface IconComponentProps {
   size?: number
   accentColor?: string
@@ -49,15 +50,11 @@ interface ServiceCategory {
   title: string
   description: string
   icon: ComponentType<IconComponentProps>
-  color: string
-  borderColor: string
   accentHex: string
-  iconBg: string
-  glowColor: string
-  image: string
   solutions: Solution[]
 }
 
+// --- Data ---
 const services: ServiceCategory[] = [
   {
     id: "seguridad",
@@ -65,12 +62,7 @@ const services: ServiceCategory[] = [
     description:
       "Protege tu hogar o negocio con sistemas de seguridad de última generación. Nuestras soluciones integran tecnología avanzada con analítica de video basada en inteligencia artificial.",
     icon: SecurityIcon,
-    color: "from-red-500/20 to-red-600/5",
-    borderColor: "border-red-500/30 hover:border-red-500/60",
     accentHex: "#ef4444",
-    iconBg: "bg-red-500/10 text-red-500",
-    glowColor: "shadow-red-500/20",
-    image: "/images/portfolio/seguridad-residencial.jpg",
     solutions: [
       {
         name: "Circuitos CCTV",
@@ -91,14 +83,14 @@ const services: ServiceCategory[] = [
         icon: IntrusionIcon,
         description:
           "Alarmas con sensores perimetrales y volumétricos, monitoreo remoto y notificaciones para prevenir incidentes.",
-        features: ["Sensores perimetrales", "Detectores de movimiento", "Monitoreo remoto", "Notificaciones instantáneas"],
+        features: ["Sensores perimetrales", "Detectores de movimiento", "Monitoreo remoto", "Notificaciones"],
       },
       {
         name: "Comunicaciones de Emergencia",
         icon: EmergencyCommsIcon,
         description:
           "Sistemas de comunicación para coordinación y respuesta rápida ante eventos, integrables con seguridad y monitoreo.",
-        features: ["Radios digitales", "Intercomunicadores", "Sistemas PA", "Integración con CCTV"],
+        features: ["Radios digitales", "Intercomunicadores", "Sistemas PA", "Integración CCTV"],
       },
     ],
   },
@@ -108,12 +100,7 @@ const services: ServiceCategory[] = [
     description:
       "Soluciones integrales de TI que optimizan tu infraestructura, mejoran la productividad y aseguran la continuidad de tus operaciones.",
     icon: ITIcon,
-    color: "from-blue-500/20 to-blue-600/5",
-    borderColor: "border-blue-500/30 hover:border-blue-500/60",
     accentHex: "#3b82f6",
-    iconBg: "bg-blue-500/10 text-blue-500",
-    glowColor: "shadow-blue-500/20",
-    image: "/images/portfolio/datacenter.jpg",
     solutions: [
       {
         name: "Redes y Conectividad",
@@ -127,7 +114,7 @@ const services: ServiceCategory[] = [
         icon: CloudServiceIcon,
         description:
           "Migración y gestión de servicios en la nube para mayor flexibilidad, escalabilidad y reducción de costos.",
-        features: ["AWS / Azure / GCP", "Migración a la nube", "Backup en la nube", "SaaS / IaaS / PaaS"],
+        features: ["AWS / Azure / GCP", "Migración a la nube", "Backup cloud", "SaaS / IaaS / PaaS"],
       },
       {
         name: "Software a Medida",
@@ -151,39 +138,34 @@ const services: ServiceCategory[] = [
     description:
       "Soluciones de smart home para automatizar, proteger y conectar tu casa. Integración prolija, control desde el celular y configuraciones seguras.",
     icon: IoTIcon,
-    color: "from-green-500/20 to-green-600/5",
-    borderColor: "border-green-500/30 hover:border-green-500/60",
     accentHex: "#22c55e",
-    iconBg: "bg-green-500/10 text-green-500",
-    glowColor: "shadow-green-500/20",
-    image: "/images/portfolio/smart-home.jpg",
     solutions: [
       {
         name: "Automatización & Escenas",
         icon: AutomationIcon,
         description:
-          "Automatizá rutinas para que tu casa trabaje por vos: escenas por horarios, presencia o geolocalización (según compatibilidad).",
-        features: ["Escenas personalizadas", "Rutinas por horarios", "Automatización por sensores", "Control desde el celular"],
+          "Automatizá rutinas para que tu casa trabaje por vos: escenas por horarios, presencia o geolocalización.",
+        features: ["Escenas personalizadas", "Rutinas por horarios", "Sensores", "Control celular"],
       },
       {
         name: "Iluminación Inteligente",
         icon: SmartLightIcon,
         description:
           "Control de luces por ambientes, horarios y escenas. Mejora el confort y sumá seguridad con simulación de presencia.",
-        features: ["Control por ambientes", "Programaciones", "Simulación de presencia", "Escenas de luz"],
+        features: ["Control por ambientes", "Programaciones", "Simulación", "Escenas de luz"],
       },
       {
         name: "Cerraduras & Videoportero",
         icon: SmartLockIcon,
         description:
-          "Accesos más seguros y cómodos: cerraduras inteligentes, videoportero y permisos temporales para visitas o servicios.",
-        features: ["Acceso sin llaves", "Códigos temporales", "Historial de accesos", "Integración con cámaras"],
+          "Accesos más seguros y cómodos: cerraduras inteligentes, videoportero y permisos temporales para visitas.",
+        features: ["Acceso sin llaves", "Códigos temporales", "Historial", "Integración cámaras"],
       },
       {
         name: "Wi-Fi / Mesh & Conectividad",
         icon: WiFiMeshIcon,
         description:
-          "Red estable para que el smart home funcione bien: optimizamos cobertura, puntos críticos y seguridad de la red.",
+          "Red estable para que el smart home funcione bien: optimizamos cobertura, puntos críticos y seguridad.",
         features: ["Cobertura mejorada", "Red Mesh", "Segmentación IoT", "Seguridad Wi-Fi"],
       },
     ],
@@ -192,242 +174,310 @@ const services: ServiceCategory[] = [
     id: "web",
     title: "Diseño y Desarrollo Web",
     description:
-      "Creamos sitios web y aplicaciones digitales a medida que impulsan tu presencia online. Desde landing pages hasta plataformas e-commerce, combinamos diseño atractivo con tecnología de vanguardia.",
+      "Creamos sitios web y aplicaciones digitales a medida que impulsan tu presencia online. Desde landing pages hasta e-commerce, combinamos diseño con tecnología.",
     icon: WebIcon,
-    color: "from-purple-500/20 to-purple-600/5",
-    borderColor: "border-purple-500/30 hover:border-purple-500/60",
     accentHex: "#a855f7",
-    iconBg: "bg-purple-500/10 text-purple-500",
-    glowColor: "shadow-purple-500/20",
-    image: "/images/portfolio/code.jpg",
     solutions: [
       {
         name: "Diseño UI/UX",
         icon: UIDesignIcon,
         description:
-          "Diseñamos interfaces modernas, intuitivas y centradas en el usuario. Cada proyecto parte de un análisis de tu marca y audiencia para lograr una experiencia visual única.",
-        features: ["Diseño responsive", "Identidad visual", "Prototipado interactivo", "Experiencia de usuario"],
+          "Diseñamos interfaces modernas, intuitivas y centradas en el usuario. Cada proyecto parte de un análisis de tu marca y audiencia.",
+        features: ["Diseño responsive", "Identidad visual", "Prototipado", "Experiencia de usuario"],
       },
       {
         name: "Desarrollo Web",
         icon: WebDevIcon,
         description:
-          "Desarrollamos sitios web y aplicaciones con las últimas tecnologías: rendimiento, seguridad y escalabilidad para tu negocio.",
-        features: ["Next.js / React", "Sitios corporativos", "Landing pages", "Aplicaciones web"],
+          "Desarrollamos sitios web y aplicaciones con las últimas tecnologías: rendimiento, seguridad y escalabilidad.",
+        features: ["Next.js / React", "Sitios corporativos", "Landing pages", "Web apps"],
       },
       {
         name: "E-Commerce",
         icon: ECommerceIcon,
         description:
-          "Tiendas online completas con catálogo de productos, carrito de compras, pasarelas de pago y gestión de pedidos para vender más.",
-        features: ["Catálogo de productos", "Pasarelas de pago", "Gestión de pedidos", "Panel de administración"],
+          "Tiendas online completas con catálogo de productos, carrito de compras, pasarelas de pago y gestión.",
+        features: ["Catálogos", "Pasarelas de pago", "Gestión de pedidos", "Panel admin"],
       },
       {
         name: "SEO & Performance",
         icon: SEOIcon,
         description:
-          "Optimización técnica y de contenido para que tu sitio aparezca en los primeros resultados de búsqueda y cargue a máxima velocidad.",
-        features: ["SEO on-page", "Velocidad de carga", "Google Analytics", "Posicionamiento orgánico"],
+          "Optimización técnica y de contenido para aparecer en los primeros resultados de búsqueda y cargar a máxima velocidad.",
+        features: ["SEO on-page", "Velocidad de carga", "Analytics", "Posicionamiento orgánico"],
       },
     ],
   },
 ]
 
+// --- Hooks ---
+function useReveal() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReducedMotion) {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect() // Cleanup inmediato al revelar
+        }
+      },
+      { threshold: 0.1, rootMargin: "50px" }
+    )
+
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
+
+  return { ref, isVisible }
+}
+
+// --- Components ---
 function SolutionCard({
   solution,
   accentHex,
-  categoryColor,
   index,
+  isHero,
 }: {
   solution: Solution
   accentHex: string
-  categoryColor: string
   index: number
+  isHero: boolean
 }) {
-  const [isVisible, setIsVisible] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setTimeout(() => setIsVisible(true), index * 100)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [index])
-
+  const { ref, isVisible } = useReveal()
   const SolutionIcon = solution.icon
 
   return (
     <div
-      ref={cardRef}
-      className={`group relative bg-card border ${categoryColor} rounded-2xl p-6 transition-all duration-700 hover:shadow-2xl hover:-translate-y-1 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+      ref={ref}
+      style={{
+        "--accent": accentHex,
+        transitionDelay: `${index * 75}ms`
+      } as React.CSSProperties}
+      className={`group relative bg-card border border-border rounded-2xl transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[var(--accent)]/10 hover:-translate-y-0.5 hover:border-[var(--accent)]/50
+        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+        ${isHero ? "md:col-span-3 p-8 flex flex-col md:flex-row gap-8 items-start" : "col-span-1 p-6 flex flex-col gap-5"}
+      `}
     >
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      {/* Corner accents */}
-      <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-transparent group-hover:border-primary/40 transition-colors duration-300" />
-      <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-transparent group-hover:border-primary/40 transition-colors duration-300" />
-
-      <div className="relative flex items-start gap-4">
-        <div
-          className={`flex h-14 w-14 items-center justify-center rounded-xl ${categoryColor
-            .replace("border-", "bg-")
-            .replace("/30", "/10")
-            .replace("/60", "/20")} shrink-0 group-hover:scale-110 transition-transform duration-300`}
-        >
-          <SolutionIcon size={28} accentColor={accentHex} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-xl font-semibold mb-2 font-[family-name:var(--font-heading)] group-hover:text-primary transition-colors">
-            {solution.name}
-          </h3>
-          <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{solution.description}</p>
-          <ul className="grid grid-cols-2 gap-2">
-            {solution.features.map((feature, featureIndex) => (
-              <li key={featureIndex} className="flex items-center gap-2 text-sm group/item">
-                <CheckCircle2 className="h-4 w-4 text-primary shrink-0 group-hover/item:scale-110 transition-transform" />
-                <span className="truncate">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div
+        className={`flex items-center justify-center rounded-xl shrink-0 transition-transform duration-300 group-hover:scale-110
+          ${isHero ? "h-16 w-16" : "h-12 w-12"}
+        `}
+        style={{ backgroundColor: `${accentHex}15`, color: accentHex }}
+      >
+        <SolutionIcon size={isHero ? 32 : 24} accentColor={accentHex} />
       </div>
 
-      {/* Bottom line animation */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+      <div className="flex-1 min-w-0 w-full">
+        <h3 className={`font-semibold mb-3 font-[family-name:var(--font-heading)] transition-colors group-hover:text-[var(--accent)] ${isHero ? "text-2xl" : "text-lg"}`}>
+          {solution.name}
+        </h3>
+        <p className={`text-muted-foreground leading-relaxed ${isHero ? "text-base mb-6 max-w-3xl" : "text-sm mb-5"}`}>
+          {solution.description}
+        </p>
+
+        {/* Features list instead of truncating grid */}
+        <ul className={`flex flex-wrap gap-2 ${isHero ? "gap-3" : ""}`}>
+          {solution.features.map((feature, fIndex) => (
+            <li
+              key={fIndex}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-secondary/50 text-xs font-medium border border-border/50 text-foreground/80 transition-colors group-hover:border-[var(--accent)]/20"
+            >
+              <CheckCircle2 className="h-3 w-3" style={{ color: accentHex }} />
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
 
 export default function ServiciosPage() {
+  const [activeSection, setActiveSection] = useState<string>("")
+
+  // Scroll Spy for TOC
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: "-20% 0px -70% 0px" } // Detecta la sección activa en el tercio superior
+    )
+
+    services.forEach((s) => {
+      const el = document.getElementById(s.id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <>
       <Header />
-      <TechBackground />
       <main className="pt-20">
-        {/* Hero section */}
-        <section className="relative py-20 overflow-hidden">
-          <GridPattern />
-          <CircuitLines />
 
-          <div className="absolute inset-0 -z-5">
-            <Image src="/images/services-bg.jpg" alt="" fill className="object-cover opacity-10" />
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-          </div>
+        {/* Hero Compacto & Editorial */}
+        <section className="relative py-16 lg:py-24 overflow-hidden border-b border-border/50 bg-background">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
 
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="text-sm font-semibold text-primary tracking-wider uppercase mb-3 animate-pulse">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+            <div className="max-w-3xl">
+              <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary mb-6">
                 Nuestros Servicios
-              </p>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl font-[family-name:var(--font-heading)]">
-                Soluciones Tecnológicas
-                <span className="text-primary"> Integrales</span>
-              </h1>
-              <div className="mt-3 flex items-center justify-center gap-2">
-                <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
-                <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-                <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
-              </div>
-              <p className="mt-6 text-lg text-muted-foreground">
-                Ofrecemos servicios especializados en cuatro pilares fundamentales para modernizar y proteger tus
-                espacios: Seguridad, TI, IoT para el Hogar y Diseño & Desarrollo Web.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Services sections */}
-        {services.map((category, index) => {
-          const CategoryIcon = category.icon
-          return (
-            <section
-              key={category.id}
-              id={category.id}
-              className={`relative py-20 overflow-hidden ${index % 2 === 1 ? "bg-secondary/30" : ""}`}
-            >
-              {/* Background image */}
-              <div className="absolute inset-0 -z-10">
-                <Image src={category.image || "/placeholder.svg"} alt="" fill className="object-cover opacity-5" />
-                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background" />
-              </div>
-
-              <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
-                {/* Category header */}
-                <div className="flex flex-col md:flex-row md:items-center gap-6 mb-12">
-                  <div
-                    className={`relative flex h-20 w-20 items-center justify-center rounded-2xl ${category.iconBg} group`}
-                  >
-                    <CategoryIcon size={44} accentColor={category.accentHex} />
-                    {/* Glow effect */}
-                    <div className={`absolute inset-0 rounded-2xl ${category.iconBg} blur-xl opacity-50`} />
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-3xl font-bold font-[family-name:var(--font-heading)] mb-2">
-                      {category.title}
-                    </h2>
-                    <p className="text-muted-foreground max-w-2xl">{category.description}</p>
-                  </div>
-                </div>
-
-                {/* Solutions grid */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  {category.solutions.map((solution, solutionIndex) => (
-                    <SolutionCard
-                      key={solutionIndex}
-                      solution={solution}
-                      accentHex={category.accentHex}
-                      categoryColor={category.borderColor}
-                      index={solutionIndex}
-                    />
-                  ))}
-                </div>
-              </div>
-            </section>
-          )
-        })}
-
-        {/* CTA Section */}
-        <section className="relative py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5" />
-          <CircuitLines />
-
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 relative text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm text-primary mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              Consulta Gratuita
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-[family-name:var(--font-heading)] mb-6">
+                Soluciones integrales para{" "}
+                <span className="text-muted-foreground">modernizar</span> y{" "}
+                <span className="text-muted-foreground">proteger</span> tu entorno.
+              </h1>
             </div>
 
-            <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] mb-4">
-              ¿Necesitas una Solución <span className="text-primary">Personalizada</span>?
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-              Nuestro equipo está listo para diseñar una solución a medida (seguridad, TI, smart home o web) que se
-              adapte perfectamente a tus necesidades.
-            </p>
-            <a
-              href="#contacto"
-              className="group inline-flex items-center justify-center rounded-xl bg-primary px-8 py-4 text-base font-medium text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/25"
-            >
-              Solicitar Evaluación Gratuita
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            {/* TOC Inicial / Pillars Summary */}
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+              {services.map((service) => {
+                const Icon = service.icon
+                return (
+                  <Link
+                    href={`#${service.id}`}
+                    key={service.id}
+                    className="group flex flex-col items-start p-4 rounded-xl border border-border bg-card/50 hover:bg-card transition-all hover:border-primary/30"
+                  >
+                    <Icon size={24} accentColor={service.accentHex} className="mb-3 transition-transform group-hover:scale-110" />
+                    <span className="text-sm font-semibold">{service.title}</span>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
         </section>
+
+        {/* Sticky TOC Navigation (Mobile & Desktop) */}
+        <div className="sticky top-16 z-40 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <nav className="flex items-center gap-6 overflow-x-auto scrollbar-hide py-3">
+              {services.map((category) => (
+                <Link
+                  key={`toc-${category.id}`}
+                  href={`#${category.id}`}
+                  style={{ "--accent": category.accentHex } as React.CSSProperties}
+                  className={`relative whitespace-nowrap text-sm font-medium transition-colors hover:text-[var(--accent)] px-1 py-2
+                    ${activeSection === category.id ? "text-[var(--accent)]" : "text-muted-foreground"}
+                  `}
+                >
+                  {category.title}
+                  {activeSection === category.id && (
+                    <span
+                      className="absolute bottom-0 left-0 w-full h-0.5 rounded-t-full bg-[var(--accent)]"
+                      style={{ backgroundColor: category.accentHex }}
+                    />
+                  )}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+
+        {/* Categories as Chapters */}
+        <div className="pb-24">
+          {services.map((category, index) => {
+            const CategoryIcon = category.icon
+            const chapterNum = String(index + 1).padStart(2, "0")
+
+            return (
+              <section
+                key={category.id}
+                id={category.id}
+                style={{ "--cat-accent": category.accentHex } as React.CSSProperties}
+                className="scroll-mt-32 pt-20 lg:pt-32"
+              >
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+                  {/* Chapter Header */}
+                  <div className="flex flex-col md:flex-row gap-6 md:items-end justify-between mb-12 lg:mb-16">
+                    <div className="flex-1 max-w-3xl">
+                      <div className="flex items-center gap-4 mb-4">
+                        <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text opacity-20" style={{ WebkitTextStroke: `1px ${category.accentHex}`, color: "transparent" }}>
+                          {chapterNum}
+                        </span>
+                        <div className="h-12 w-px bg-border hidden md:block" />
+                        <CategoryIcon size={36} accentColor={category.accentHex} />
+                      </div>
+                      <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] mb-4">
+                        {category.title}
+                      </h2>
+                      <p className="text-lg text-muted-foreground">
+                        {category.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Bento Grid Solutions */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {category.solutions.map((solution, solutionIndex) => (
+                      <SolutionCard
+                        key={solutionIndex}
+                        solution={solution}
+                        accentHex={category.accentHex}
+                        index={solutionIndex}
+                        isHero={solutionIndex === 0} // La primera card es ancha (Hero)
+                      />
+                    ))}
+                  </div>
+
+                  {/* Chapter Separator (Except last one) */}
+                  {index < services.length - 1 && (
+                    <div className="mt-20 lg:mt-32 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+                  )}
+                </div>
+              </section>
+            )
+          })}
+        </div>
+
+        {/* CTA Card Section */}
+        <section className="py-24 px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl">
+            <div className="relative rounded-3xl overflow-hidden border border-primary/20 bg-card p-8 md:p-16 text-center shadow-2xl shadow-primary/5">
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+
+              <div className="relative z-10">
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-6">
+                  Consulta Gratuita
+                </span>
+
+                <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] mb-6">
+                  ¿Necesitas una solución a medida?
+                </h2>
+
+                <p className="text-muted-foreground max-w-2xl mx-auto mb-10 text-lg">
+                  Nuestro equipo está listo para diseñar la arquitectura ideal de seguridad, TI, smart home o desarrollo web para tu proyecto.
+                </p>
+
+                <Link
+                  href="/contacto"
+                  className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-8 text-base font-medium text-primary-foreground transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:-translate-y-0.5"
+                >
+                  Contactar ahora
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
       <Footer />
       <WhatsAppButton />
