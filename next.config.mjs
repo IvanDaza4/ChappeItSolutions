@@ -1,16 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  images: {
-    unoptimized: true
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // En Vercel podés usar el optimizador de imágenes nativo.
+    // Si querés activarlo, remové esta línea o ponela en false.
+    unoptimized: false,
   },
-
 }
 
 export default nextConfig
