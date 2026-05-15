@@ -391,14 +391,6 @@ export default function ClientesPage() {
                     gap: 1px;
                     background: rgba(255,255,255,0.07);
                 }
-                @media (max-width: 640px) {
-                    .cis-client-grid { grid-template-columns: repeat(2, 1fr); }
-                    .cis-title { font-size: 2.6rem; }
-                    .cis-stats-grid { grid-template-columns: repeat(2, 1fr); }
-                }
-                @media (min-width: 641px) and (max-width: 900px) {
-                    .cis-client-grid { grid-template-columns: repeat(3, 1fr); }
-                }
 
                 .client-cell {
                     background: var(--background, #121212);
@@ -509,7 +501,7 @@ export default function ClientesPage() {
                 }
                 .stat-cell {
                     background: var(--background, #121212);
-                    padding: 2.25rem 1.5rem;
+                    padding: clamp(1.25rem, 4vw, 2.25rem) clamp(1rem, 3vw, 1.5rem);
                     display: flex;
                     flex-direction: column;
                     gap: 6px;
@@ -531,7 +523,7 @@ export default function ClientesPage() {
 
                 .stat-num {
                     font-family: 'Montserrat', var(--font-heading, sans-serif);
-                    font-size: 2.8rem;
+                    font-size: clamp(2rem, 5vw, 2.8rem);
                     font-weight: 900;
                     line-height: 1;
                     color: #E53935;
@@ -549,7 +541,7 @@ export default function ClientesPage() {
                     position: absolute;
                     bottom: 8px; right: 12px;
                     font-family: 'Montserrat', var(--font-heading, sans-serif);
-                    font-size: 28px;
+                    font-size: clamp(20px, 4vw, 28px);
                     font-weight: 900;
                     color: rgba(255,255,255,0.03);
                     pointer-events: none;
@@ -670,6 +662,25 @@ export default function ClientesPage() {
                 .cis-anim-2 { animation: cisUp 0.7s ease 0.2s both; }
                 .cis-anim-3 { animation: cisUp 0.7s ease 0.3s both; }
                 .cis-anim-4 { animation: cisUp 0.7s ease 0.4s both; }
+
+                /* ── RESPONSIVE BREAKPOINTS ── */
+                /* Tablet y Laptops pequeñas */
+                @media (max-width: 1024px) {
+                    .cis-client-grid { grid-template-columns: repeat(3, 1fr); }
+                    .cis-stats-grid { grid-template-columns: repeat(2, 1fr); }
+                }
+
+                /* Mobile Landscape a Tablet vertical */
+                @media (max-width: 768px) {
+                    .cis-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+                    .cis-client-grid { grid-template-columns: repeat(2, 1fr); }
+                    .cis-hero-desc { padding: 0 1rem; }
+                }
+
+                /* Mobile Portrait */
+                @media (max-width: 480px) {
+                    .stat-label { font-size: 9px; letter-spacing: 0.1em; }
+                }
             `}</style>
             <TechBackground />
             <Header />
