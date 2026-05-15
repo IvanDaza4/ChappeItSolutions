@@ -5,7 +5,7 @@ import { ServicesPreview } from "@/components/services-preview"
 import { SupportLevels } from "@/components/support-levels"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { TechBackground } from "@/components/tech-background"
+import { TechBackground } from "@/components/tech-background" 
 
 export default function HomePage() {
   return (

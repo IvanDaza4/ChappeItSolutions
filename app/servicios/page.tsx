@@ -1,12 +1,11 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { CheckCircle2, ArrowRight } from "lucide-react"
+import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react"
 import { TechBackground } from "@/components/tech-background"
 
 import {
@@ -228,10 +227,10 @@ function useReveal() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          observer.disconnect() // Cleanup inmediato al revelar
+          observer.disconnect()
         }
       },
-      { threshold: 0.1, rootMargin: "50px" }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     )
 
     if (ref.current) observer.observe(ref.current)
@@ -257,44 +256,47 @@ function SolutionCard({
   const SolutionIcon = solution.icon
 
   return (
-
     <div
-
       ref={ref}
       style={{
         "--accent": accentHex,
-        transitionDelay: `${index * 75}ms`
+        transitionDelay: `${index * 100}ms`,
       } as React.CSSProperties}
-      className={`group relative bg-card border border-border rounded-2xl transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[var(--accent)]/10 hover:-translate-y-0.5 hover:border-[var(--accent)]/50
-        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
-        ${isHero ? "md:col-span-3 p-8 flex flex-col md:flex-row gap-8 items-start" : "col-span-1 p-6 flex flex-col gap-5"}
+      className={`group relative overflow-hidden bg-card/40 backdrop-blur-sm border border-border/40 rounded-3xl transition-all duration-700 ease-out hover:shadow-[0_20px_40px_-15px_rgba(var(--accent-rgb),0.15)] hover:-translate-y-2 hover:border-[var(--accent)]/40 hover:bg-card/80
+        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}
+        ${isHero ? "md:col-span-2 p-8 lg:p-10 flex flex-col md:flex-row gap-8 lg:gap-12 items-start" : "col-span-1 p-8 flex flex-col gap-6"}
       `}
     >
+      {/* Subtle radial gradient background on hover */}
       <div
-        className={`flex items-center justify-center rounded-xl shrink-0 transition-transform duration-300 group-hover:scale-110
-          ${isHero ? "h-16 w-16" : "h-12 w-12"}
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{ background: `radial-gradient(circle at top right, ${accentHex}10, transparent 50%)` }}
+      />
+
+      <div
+        className={`relative flex items-center justify-center rounded-2xl shrink-0 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-3
+          ${isHero ? "h-20 w-20 shadow-lg shadow-[var(--accent)]/10" : "h-14 w-14"}
         `}
-        style={{ backgroundColor: `${accentHex}15`, color: accentHex }}
+        style={{ backgroundColor: `${accentHex}10`, color: accentHex, border: `1px solid ${accentHex}20` }}
       >
-        <SolutionIcon size={isHero ? 32 : 24} accentColor={accentHex} />
+        <SolutionIcon size={isHero ? 36 : 28} accentColor={accentHex} />
       </div>
 
-      <div className="flex-1 min-w-0 w-full">
-        <h3 className={`font-semibold mb-3 font-[family-name:var(--font-heading)] transition-colors group-hover:text-[var(--accent)] ${isHero ? "text-2xl" : "text-lg"}`}>
+      <div className="flex-1 min-w-0 w-full relative z-10">
+        <h3 className={`font-semibold tracking-tight text-foreground mb-3 transition-colors duration-300 group-hover:text-[var(--accent)] ${isHero ? "text-2xl lg:text-3xl" : "text-xl"}`}>
           {solution.name}
         </h3>
-        <p className={`text-muted-foreground leading-relaxed ${isHero ? "text-base mb-6 max-w-3xl" : "text-sm mb-5"}`}>
+        <p className={`text-muted-foreground leading-relaxed ${isHero ? "text-lg mb-8 max-w-2xl" : "text-base mb-6"}`}>
           {solution.description}
         </p>
 
-        {/* Features list instead of truncating grid */}
-        <ul className={`flex flex-wrap gap-2 ${isHero ? "gap-3" : ""}`}>
+        <ul className={`flex flex-wrap gap-2.5 ${isHero ? "gap-3" : ""}`}>
           {solution.features.map((feature, fIndex) => (
             <li
               key={fIndex}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-secondary/50 text-xs font-medium border border-border/50 text-foreground/80 transition-colors group-hover:border-[var(--accent)]/20"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/30 backdrop-blur-md text-[13px] font-medium border border-border/30 text-foreground/80 transition-all duration-300 group-hover:border-[var(--accent)]/30 group-hover:bg-[var(--accent)]/5"
             >
-              <CheckCircle2 className="h-3 w-3" style={{ color: accentHex }} />
+              <CheckCircle2 className="h-3.5 w-3.5" style={{ color: accentHex }} />
               {feature}
             </li>
           ))}
@@ -305,7 +307,6 @@ function SolutionCard({
 }
 
 export default function ServiciosPage() {
-
   const [activeSection, setActiveSection] = useState<string>("")
 
   // Scroll Spy for TOC
@@ -318,7 +319,7 @@ export default function ServiciosPage() {
           }
         })
       },
-      { rootMargin: "-20% 0px -70% 0px" } // Detecta la sección activa en el tercio superior
+      { rootMargin: "-30% 0px -70% 0px" }
     )
 
     services.forEach((s) => {
@@ -330,74 +331,59 @@ export default function ServiciosPage() {
   }, [])
 
   return (
-    <>
+    <div className="bg-background selection:bg-primary/30 selection:text-primary">
       <TechBackground />
       <Header />
-      <main className="pt-20">
 
-        {/* Hero Compacto & Editorial */}
-        <section className="relative py-16 lg:py-24 overflow-hidden border-b border-border/50 bg-background">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
+      <main className="relative pt-24 pb-32">
+        {/* Abstract Top Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-20 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse at top, var(--primary) 0%, transparent 70%)", filter: "blur(80px)" }} />
 
-          <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl">
-              <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary mb-6">
+        {/* Editorial Hero Section */}
+        <section className="relative min-h-[60vh] flex items-center justify-center py-20 px-6 lg:px-8 overflow-hidden">
+          <div className="mx-auto max-w-7xl text-center relative z-10">
+            <div className="animate-fade-in-up" style={{ animationDuration: '0.8s' }}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-md px-4 py-1.5 text-sm font-medium text-primary mb-8 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
+                <Sparkles className="w-4 h-4" />
                 Nuestros Servicios
               </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-[family-name:var(--font-heading)] mb-6">
-                Soluciones integrales para{" "}
-                <span className="text-muted-foreground">modernizar</span> y{" "}
-                <span className="text-muted-foreground">proteger</span> tu entorno.
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter font-[family-name:var(--font-heading)] leading-[1.1] mb-8 text-foreground">
+                Arquitectura <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">Digital</span> <br className="hidden md:block" />
+                y Seguridad.
               </h1>
-            </div>
-
-            {/* TOC Inicial / Pillars Summary */}
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {services.map((service) => {
-                const Icon = service.icon
-                return (
-                  <Link
-                    href={`#${service.id}`}
-                    key={service.id}
-                    className="group flex flex-col items-start p-4 rounded-xl border border-border bg-card/50 hover:bg-card transition-all hover:border-primary/30"
-                  >
-                    <Icon size={24} accentColor={service.accentHex} className="mb-3 transition-transform group-hover:scale-110" />
-                    <span className="text-sm font-semibold">{service.title}</span>
-                  </Link>
-                )
-              })}
+              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+                Diseñamos ecosistemas tecnológicos escalables. Desde protección inteligente hasta desarrollo de alto rendimiento.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* Sticky TOC Navigation (Mobile & Desktop) */}
-        <div className="sticky top-16 z-40 bg-background/80 backdrop-blur-md border-b border-border/50 shadow-sm">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <nav className="flex items-center gap-6 overflow-x-auto scrollbar-hide py-3">
-              {services.map((category) => (
-                <Link
-                  key={`toc-${category.id}`}
-                  href={`#${category.id}`}
-                  style={{ "--accent": category.accentHex } as React.CSSProperties}
-                  className={`relative whitespace-nowrap text-sm font-medium transition-colors hover:text-[var(--accent)] px-1 py-2
-                    ${activeSection === category.id ? "text-[var(--accent)]" : "text-muted-foreground"}
-                  `}
-                >
-                  {category.title}
-                  {activeSection === category.id && (
-                    <span
-                      className="absolute bottom-0 left-0 w-full h-0.5 rounded-t-full bg-[var(--accent)]"
-                      style={{ backgroundColor: category.accentHex }}
-                    />
-                  )}
-                </Link>
-              ))}
-            </nav>
-          </div>
+        {/* Floating Dynamic Island TOC */}
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 hidden md:flex">
+          <nav className="flex items-center gap-2 bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl rounded-full p-2">
+            {services.map((category) => (
+              <Link
+                key={`toc-${category.id}`}
+                href={`#${category.id}`}
+                className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300
+                  ${activeSection === category.id ? "text-background shadow-md" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}
+                `}
+              >
+                {activeSection === category.id && (
+                  <div
+                    className="absolute inset-0 rounded-full -z-10 transition-all duration-500"
+                    style={{ backgroundColor: category.accentHex }}
+                  />
+                )}
+                <span className="relative z-10">{category.title}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
 
-        {/* Categories as Chapters */}
-        <div className="pb-24">
+        {/* Services / Chapters Layout */}
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 space-y-32 lg:space-y-48">
           {services.map((category, index) => {
             const CategoryIcon = category.icon
             const chapterNum = String(index + 1).padStart(2, "0")
@@ -407,77 +393,85 @@ export default function ServiciosPage() {
                 key={category.id}
                 id={category.id}
                 style={{ "--cat-accent": category.accentHex } as React.CSSProperties}
-                className="scroll-mt-32 pt-20 lg:pt-32"
+                className="scroll-mt-32 relative group"
               >
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
-                  {/* Chapter Header */}
-                  <div className="flex flex-col md:flex-row gap-6 md:items-end justify-between mb-12 lg:mb-16">
-                    <div className="flex-1 max-w-3xl">
-                      <div className="flex items-center gap-4 mb-4">
-                        <span className="text-5xl md:text-7xl font-black text-transparent bg-clip-text opacity-20" style={{ WebkitTextStroke: `1px ${category.accentHex}`, color: "transparent" }}>
+                  {/* Sticky Header Column */}
+                  <div className="lg:col-span-4 flex flex-col relative">
+                    <div className="lg:sticky lg:top-32 h-fit">
+                      <div className="flex items-center gap-6 mb-8">
+                        <span className="text-7xl lg:text-8xl font-black tracking-tighter text-transparent opacity-20 transition-opacity duration-500 group-hover:opacity-40"
+                          style={{ WebkitTextStroke: `2px ${category.accentHex}`, color: "transparent" }}>
                           {chapterNum}
                         </span>
-                        <div className="h-12 w-px bg-border hidden md:block" />
-                        <CategoryIcon size={36} accentColor={category.accentHex} />
+                        <div className="h-20 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
+                        <div className="p-4 rounded-2xl bg-card border border-border shadow-lg" style={{ borderColor: `${category.accentHex}30` }}>
+                          <CategoryIcon size={40} accentColor={category.accentHex} />
+                        </div>
                       </div>
-                      <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] mb-4">
+
+                      <h2 className="text-4xl md:text-5xl font-bold tracking-tight font-[family-name:var(--font-heading)] mb-6">
                         {category.title}
                       </h2>
-                      <p className="text-lg text-muted-foreground">
+                      <p className="text-lg text-muted-foreground leading-relaxed">
                         {category.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Bento Grid Solutions */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {category.solutions.map((solution, solutionIndex) => (
-                      <SolutionCard
-                        key={solutionIndex}
-                        solution={solution}
-                        accentHex={category.accentHex}
-                        index={solutionIndex}
-                        isHero={solutionIndex === 0} // La primera card es ancha (Hero)
-                      />
-                    ))}
+                  {/* Scrolling Bento Grid Cards */}
+                  <div className="lg:col-span-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                      {category.solutions.map((solution, solutionIndex) => (
+                        <SolutionCard
+                          key={solutionIndex}
+                          solution={solution}
+                          accentHex={category.accentHex}
+                          index={solutionIndex}
+                          isHero={solutionIndex === 0}
+                        />
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Chapter Separator (Except last one) */}
-                  {index < services.length - 1 && (
-                    <div className="mt-20 lg:mt-32 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                  )}
                 </div>
               </section>
             )
           })}
         </div>
 
-        {/* CTA Card Section */}
-        <section className="py-24 px-6 lg:px-8">
-          <div className="mx-auto max-w-5xl">
-            <div className="relative rounded-3xl overflow-hidden border border-primary/20 bg-card p-8 md:p-16 text-center shadow-2xl shadow-primary/5">
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+        {/* Premium CTA Card Section */}
+        <section className="mt-32 lg:mt-48 px-6 lg:px-8">
+          <div className="mx-auto max-w-6xl">
+            <div className="group relative rounded-[2.5rem] overflow-hidden bg-card border border-border/50 p-10 md:p-20 text-center transition-all duration-700 hover:border-primary/30">
+              {/* Animated Gradients */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background pointer-events-none" />
+              <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-all duration-700" />
 
-              <div className="relative z-10">
-                <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-6">
-                  Consulta Gratuita
-                </span>
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="mb-8 p-3 bg-primary/10 rounded-2xl text-primary ring-1 ring-primary/20">
+                  <ArrowRight className="h-8 w-8 -rotate-45" />
+                </div>
 
-                <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] mb-6">
-                  ¿Necesitas una solución a medida?
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter font-[family-name:var(--font-heading)] mb-6 text-foreground">
+                  Transformemos tu visión en <br className="hidden md:block" />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">realidad operativa.</span>
                 </h2>
 
-                <p className="text-muted-foreground max-w-2xl mx-auto mb-10 text-lg">
-                  Nuestro equipo está listo para diseñar la arquitectura ideal de seguridad, TI, smart home o desarrollo web para tu proyecto.
+                <p className="text-muted-foreground max-w-2xl mx-auto mb-10 text-lg md:text-xl font-light">
+                  Agenda una consulta técnica sin cargo. Nuestro equipo diseñará la arquitectura exacta para tu próximo gran proyecto.
                 </p>
 
                 <Link
-                  href="/contacto"
-                  className="inline-flex h-12 items-center justify-center rounded-xl bg-primary px-8 text-base font-medium text-primary-foreground transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:-translate-y-0.5"
+                  href="/#contacto"
+                  className="group/btn relative inline-flex h-14 items-center justify-center rounded-full bg-foreground px-10 text-base font-medium text-background transition-all hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 overflow-hidden"
                 >
-                  Contactar ahora
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <div className="absolute inset-0 bg-primary translate-y-[100%] transition-transform duration-300 ease-out group-hover/btn:translate-y-0" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Iniciar Proyecto
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+                  </span>
                 </Link>
               </div>
             </div>
@@ -487,6 +481,6 @@ export default function ServiciosPage() {
       </main>
       <Footer />
       <WhatsAppButton />
-    </>
+    </div>
   )
 }
