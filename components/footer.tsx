@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -103,7 +103,7 @@ function MapEmbed({ query, className = "" }: { query: string; className?: string
   )
 }
 
-export function Footer() {
+function FooterContent() {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -175,6 +175,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         {/* 3 columnas en desktop: Form / Mapa / Info */}
         <div className="grid gap-12 lg:gap-16 lg:grid-cols-12">
+
           {/* Contact Form */}
           <div className="lg:col-span-4">
             <h3 className="text-2xl font-bold mb-2 font-[family-name:var(--font-heading)]">Contáctanos</h3>
@@ -363,5 +364,27 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  )
+}
+
+function FooterFallback() {
+  return (
+    <footer
+      id="contacto"
+      className="bg-card border-t border-border"
+      aria-hidden
+    >
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div className="h-[600px]" />
+      </div>
+    </footer>
+  )
+}
+
+export function Footer() {
+  return (
+    <Suspense fallback={<FooterFallback />}>
+      <FooterContent />
+    </Suspense>
   )
 }
